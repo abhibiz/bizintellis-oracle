@@ -20,6 +20,21 @@
 	}
 }
 
+@keyframes motionGlowDrift {
+	0% {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 0.55;
+	}
+	50% {
+		transform: translate3d(0, -10px, 0) scale(1.03);
+		opacity: 0.75;
+	}
+	100% {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 0.6;
+	}
+}
+
 .hero-motion__el {
 	animation: motionFadeUp 0.78s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 	opacity: 0;
@@ -65,6 +80,11 @@
 	animation: motionFloat 8s ease-in-out 1.1s infinite;
 }
 
+.hero__glow {
+	animation: motionGlowDrift 10s ease-in-out 0.6s infinite;
+	transform-origin: 50% 0%;
+}
+
 /* Scroll-triggered */
 .motion-reveal {
 	opacity: 0;
@@ -78,6 +98,37 @@
 .motion-reveal.is-in {
 	opacity: 1;
 	transform: translateY(0);
+}
+
+.motion-section {
+	opacity: 0;
+	transform: translateY(14px);
+	transition:
+		opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+	will-change: opacity, transform;
+}
+
+.motion-section.is-in {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.motion-card {
+	opacity: 0;
+	transform: translateY(16px) scale(0.992);
+	filter: blur(5px);
+	transition:
+		opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+		filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+	will-change: opacity, transform, filter;
+}
+
+.motion-card.is-in {
+	opacity: 1;
+	transform: translateY(0) scale(1);
+	filter: blur(0);
 }
 
 .motion-stagger__item {
@@ -178,11 +229,21 @@ a:not(.btn):not(.site-header__link):hover {
 		animation: none !important;
 	}
 
+	.hero__glow {
+		animation: none !important;
+	}
+
 	.motion-reveal,
-	.motion-stagger__item {
+	.motion-stagger__item,
+	.motion-section,
+	.motion-card {
 		opacity: 1;
 		transform: none;
 		transition: none;
+	}
+
+	.motion-card {
+		filter: none;
 	}
 
 	.site-header__link:hover {

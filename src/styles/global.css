@@ -625,6 +625,16 @@ li {
 	color: var(--color-teal);
 }
 
+.lenses-card:hover {
+	border-color: rgba(255, 255, 255, 0.28);
+	box-shadow: var(--shadow-glow);
+}
+
+[data-theme="light"] .lenses-card:hover {
+	border-color: rgba(16, 24, 40, 0.22);
+	box-shadow: var(--shadow-glow);
+}
+
 code {
 	font-size: 0.9em;
 	background: var(--color-bg-mid);

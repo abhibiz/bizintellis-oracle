@@ -40,7 +40,7 @@
 	--radius-lg: 22px;
 	--shadow: 0 10px 36px rgba(0, 0, 0, 0.42);
 	--shadow-glow: 0 0 60px rgba(124, 58, 237, 0.14);
-	--max: 1600px;
+	--max: min(1120px, 80vw);
 	--ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 	--dur-1: 140ms;
 	--dur-2: 220ms;

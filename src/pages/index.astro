@@ -26,7 +26,7 @@ import { siteImages } from "../data/siteImages";
 				</div>
 			</div>
 			<div class="hero__visual hero__visual--motion">
-				<div class="hero__visual-float">
+				<div class="hero__visual-float" data-parallax data-parallax-speed="0.22" data-parallax-max="26" data-parallax-dir="up">
 					<div class="media-frame media-frame--hero">
 						<img
 							src={siteImages.hero.src}
@@ -68,7 +68,7 @@ import { siteImages } from "../data/siteImages";
 				Oracle programs touch strategy, technology, and economics at once. We keep those perspectives explicit so reviews stay concrete—timeline,
 				risk, cost, and measurable value—without talking past each other.
 			</p>
-			<figure class="media-strip motion-reveal">
+			<figure class="media-strip motion-reveal" data-parallax data-parallax-speed="0.16" data-parallax-max="18" data-parallax-dir="down">
 				<img src={siteImages.approach.src} alt={siteImages.approach.alt} width="1200" height="514" loading="lazy" decoding="async" />
 			</figure>
 			<div class="grid-3" style="margin-top: 2rem;" data-motion-stagger>
@@ -114,7 +114,7 @@ import { siteImages } from "../data/siteImages";
 				{
 					services.map((s) => (
 						<a href={`/services/${s.slug}`} class="card card--interactive service-card motion-stagger__item">
-							<div class="service-card__media">
+							<div class="service-card__media" data-parallax data-parallax-speed="0.12" data-parallax-max="14" data-parallax-dir="up">
 								<img src={s.coverImage} alt={s.coverAlt} width="400" height="250" loading="lazy" decoding="async" />
 							</div>
 							<h3 style="margin-bottom: 0.5rem; font-size: 1.35rem;">{s.title}</h3>
@@ -145,7 +145,7 @@ import { siteImages } from "../data/siteImages";
 						<p>Fewer handoffs between strategy and implementation—same principles from roadmap through hypercare.</p>
 					</div>
 				</div>
-				<figure class="media-split__figure motion-stagger__item">
+				<figure class="media-split__figure motion-stagger__item" data-parallax data-parallax-speed="0.14" data-parallax-max="16" data-parallax-dir="down">
 					<img src={siteImages.work.src} alt={siteImages.work.alt} width="560" height="420" loading="lazy" decoding="async" />
 				</figure>
 			</div>

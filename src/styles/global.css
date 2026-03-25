@@ -349,8 +349,18 @@ li {
 
 @media (min-width: 900px) {
 	.hero__layout {
-		grid-template-columns: 1fr minmax(260px, 1fr);
+		grid-template-columns: 1fr;
 	}
+}
+
+.hero__layout > div {
+	text-align: center;
+	margin-inline: auto;
+	max-width: 72ch;
+}
+
+.hero__lede {
+	margin-inline: auto;
 }
 
 .hero__visual {

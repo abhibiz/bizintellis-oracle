@@ -41,19 +41,19 @@ import { siteImages } from "../data/siteImages";
 					</div>
 				</div>
 
-				<form class="card motion-reveal" style="margin-top: 1.5rem;" method="post" action="#">
+				<form class="card motion-reveal contact-form" style="margin-top: 1.5rem;" method="post" action="#">
 					<h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Message (wire to your form backend)</h2>
 					<p style="font-size: 0.9375rem; margin-bottom: 1rem;">
 						Hook this form to Formspree, Netlify Forms, or your API. Fields are semantic HTML for easy integration.
 					</p>
-					<div style="display: grid; gap: 1rem;">
+					<div class="contact-form__grid">
 						<label>
 							<span style="display: block; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.35rem;">Name</span>
 							<input
 								type="text"
 								name="name"
 								required
-								style="width: 100%; padding: 0.65rem 0.75rem; border-radius: 8px; border: 1px solid var(--color-border); font: inherit;"
+								class="field"
 							/>
 						</label>
 						<label>
@@ -62,14 +62,14 @@ import { siteImages } from "../data/siteImages";
 								type="email"
 								name="email"
 								required
-								style="width: 100%; padding: 0.65rem 0.75rem; border-radius: 8px; border: 1px solid var(--color-border); font: inherit;"
+								class="field"
 							/>
 						</label>
 						<label>
 							<span style="display: block; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.35rem;">How you orient</span>
 							<select
 								name="role"
-								style="width: 100%; padding: 0.65rem 0.75rem; border-radius: 8px; border: 1px solid var(--color-border); font: inherit; background: var(--color-bg-mid);"
+								class="field"
 							>
 								<option>Business / strategy</option>
 								<option>Technology / security</option>
@@ -82,7 +82,7 @@ import { siteImages } from "../data/siteImages";
 							<textarea
 								name="message"
 								rows="5"
-								style="width: 100%; padding: 0.65rem 0.75rem; border-radius: 8px; border: 1px solid var(--color-border); font: inherit; resize: vertical;"
+								class="field"
 							></textarea>
 						</label>
 						<button type="submit" class="btn btn--primary" style="justify-self: start;">Submit</button>
@@ -95,3 +95,28 @@ import { siteImages } from "../data/siteImages";
 		</div>
 	</section>
 </PageShell>
+
+<style>
+	.contact-form__grid {
+		display: grid;
+		gap: 1rem;
+	}
+
+	.field {
+		width: 100%;
+		padding: 0.7rem 0.85rem;
+		border-radius: 10px;
+		border: 1px solid var(--color-border);
+		background: color-mix(in oklab, var(--color-bg-mid), transparent 12%);
+		color: var(--color-ink);
+		font: inherit;
+		transition: border-color var(--dur-2) ease, box-shadow var(--dur-2) var(--ease-out-quint), background var(--dur-2) ease;
+	}
+
+	.field:focus {
+		outline: none;
+		border-color: color-mix(in oklab, var(--color-primary), var(--color-border-strong) 55%);
+		box-shadow: var(--ring);
+		background: color-mix(in oklab, var(--color-bg-mid), transparent 6%);
+	}
+</style>

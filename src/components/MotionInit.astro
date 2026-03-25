@@ -102,11 +102,13 @@
 			document.querySelectorAll("main h1, main h2, main h3").forEach(function (el) {
 				if (el.classList.contains("hero-motion__el")) return;
 				if (el.classList.contains("motion-reveal")) return;
+				if (el.closest("[data-motion-stagger]")) return;
 				el.classList.add("motion-reveal");
 			});
 
 			document.querySelectorAll("main .card").forEach(function (el) {
 				if (el.classList.contains("motion-stagger__item")) return;
+				if (el.closest("[data-motion-stagger]")) return;
 				if (el.classList.contains("motion-card")) return;
 				el.classList.add("motion-card");
 			});

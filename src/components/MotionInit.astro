@@ -1,0 +1,57 @@
+---
+---
+
+<script is:inline>
+	(function () {
+		function reduced() {
+			return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		}
+
+		function init() {
+			if (reduced()) {
+				document.querySelectorAll(".motion-reveal, .motion-stagger__item").forEach(function (el) {
+					el.classList.add("is-in");
+				});
+				return;
+			}
+
+			var opts = { rootMargin: "0px 0px -6% 0px", threshold: 0.1 };
+
+			var single = new IntersectionObserver(function (entries) {
+				entries.forEach(function (entry) {
+					if (!entry.isIntersecting) return;
+					entry.target.classList.add("is-in");
+					single.unobserve(entry.target);
+				});
+			}, opts);
+
+			document.querySelectorAll(".motion-reveal").forEach(function (el) {
+				if (el.closest("[data-motion-stagger]")) return;
+				single.observe(el);
+			});
+
+			var stagger = new IntersectionObserver(function (entries) {
+				entries.forEach(function (entry) {
+					if (!entry.isIntersecting) return;
+					var items = entry.target.querySelectorAll(".motion-stagger__item");
+					items.forEach(function (item, i) {
+						window.setTimeout(function () {
+							item.classList.add("is-in");
+						}, i * 70);
+					});
+					stagger.unobserve(entry.target);
+				});
+			}, opts);
+
+			document.querySelectorAll("[data-motion-stagger]").forEach(function (el) {
+				stagger.observe(el);
+			});
+		}
+
+		if (document.readyState === "loading") {
+			document.addEventListener("DOMContentLoaded", init);
+		} else {
+			init();
+		}
+	})();
+</script>

@@ -1,0 +1,172 @@
+---
+---
+
+<canvas class="hero__particles" id="hero-particles" aria-hidden="true"></canvas>
+
+<script is:inline>
+	(function () {
+		function parseCssColor(raw) {
+			var s = (raw || "").trim();
+			return s || "#d4b87a";
+		}
+
+		function initHeroParticles() {
+			var canvas = document.getElementById("hero-particles");
+			var hero = canvas && canvas.closest(".hero");
+			if (!canvas || !hero) return;
+
+			var prefersReduced =
+				window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+			var ctx = canvas.getContext("2d");
+			if (!ctx) return;
+
+			var raf = 0;
+			var particles = [];
+			var t = 0;
+
+			function colors() {
+				var root = document.documentElement;
+				var style = getComputedStyle(root);
+				return {
+					gold: parseCssColor(style.getPropertyValue("--color-gold")),
+					teal: parseCssColor(style.getPropertyValue("--color-teal")),
+					accent: parseCssColor(style.getPropertyValue("--color-accent")),
+				};
+			}
+
+			function layout() {
+				var dpr = Math.min(window.devicePixelRatio || 1, 2);
+				var rect = hero.getBoundingClientRect();
+				var width = Math.max(1, rect.width);
+				var height = Math.max(1, rect.height);
+				canvas.width = Math.floor(width * dpr);
+				canvas.height = Math.floor(height * dpr);
+				canvas.style.width = width + "px";
+				canvas.style.height = height + "px";
+				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+				var area = width * height;
+				var count = Math.min(90, Math.max(40, Math.floor(area / 16000)));
+				particles = [];
+				for (var i = 0; i < count; i++) {
+					particles.push({
+						x: Math.random() * width,
+						y: Math.random() * height,
+						vx: prefersReduced ? 0 : (Math.random() - 0.5) * 0.32,
+						vy: prefersReduced ? 0 : (Math.random() - 0.5) * 0.32,
+						r: Math.random() * 1.3 + 0.35,
+						a: Math.random() * 0.32 + 0.1,
+						phase: Math.random() * Math.PI * 2,
+					});
+				}
+			}
+
+			function drawStatic() {
+				var rect = hero.getBoundingClientRect();
+				var width = rect.width;
+				var height = rect.height;
+				var c = colors();
+				ctx.clearRect(0, 0, width, height);
+				for (var i = 0; i < particles.length; i++) {
+					var p = particles[i];
+					ctx.beginPath();
+					ctx.fillStyle = i % 5 === 0 ? c.teal : c.gold;
+					ctx.globalAlpha = p.a * 0.85;
+					ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+					ctx.fill();
+				}
+				ctx.globalAlpha = 1;
+			}
+
+			function tick() {
+				var rect = hero.getBoundingClientRect();
+				var width = rect.width;
+				var height = rect.height;
+				var c = colors();
+				ctx.clearRect(0, 0, width, height);
+				t += 0.0075;
+
+				var linkDist = Math.min(100, width * 0.075);
+				var n = particles.length;
+				var i, j, dx, dy, d, fade, a, b;
+				for (i = 0; i < n; i++) {
+					for (j = i + 1; j < n; j++) {
+						a = particles[i];
+						b = particles[j];
+						dx = a.x - b.x;
+						dy = a.y - b.y;
+						d = Math.sqrt(dx * dx + dy * dy);
+						if (d < linkDist && d > 1) {
+							fade = (1 - d / linkDist) * 0.1;
+							ctx.strokeStyle = c.accent;
+							ctx.globalAlpha = fade;
+							ctx.lineWidth = 0.55;
+							ctx.beginPath();
+							ctx.moveTo(a.x, a.y);
+							ctx.lineTo(b.x, b.y);
+							ctx.stroke();
+						}
+					}
+				}
+				ctx.globalAlpha = 1;
+
+				for (i = 0; i < n; i++) {
+					var p = particles[i];
+					p.x += p.vx;
+					p.y += p.vy;
+					if (p.x < -4) p.x = width + 4;
+					if (p.x > width + 4) p.x = -4;
+					if (p.y < -4) p.y = height + 4;
+					if (p.y > height + 4) p.y = -4;
+
+					var pulse = 0.85 + Math.sin(t * 1.15 + p.phase) * 0.15;
+					ctx.beginPath();
+					ctx.fillStyle = i % 6 === 0 ? c.teal : c.gold;
+					ctx.globalAlpha = p.a * pulse;
+					ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+					ctx.fill();
+				}
+				ctx.globalAlpha = 1;
+				raf = requestAnimationFrame(tick);
+			}
+
+			function onResize() {
+				cancelAnimationFrame(raf);
+				layout();
+				if (prefersReduced) {
+					drawStatic();
+				} else {
+					tick();
+				}
+			}
+
+			var ro = new ResizeObserver(onResize);
+			ro.observe(hero);
+
+			new MutationObserver(function () {
+				if (prefersReduced) drawStatic();
+			}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+			onResize();
+		}
+
+		if (document.readyState === "loading") {
+			document.addEventListener("DOMContentLoaded", initHeroParticles);
+		} else {
+			initHeroParticles();
+		}
+	})();
+</script>
+
+<style>
+	.hero__particles {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		display: block;
+	}
+</style>

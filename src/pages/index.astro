@@ -1,0 +1,201 @@
+---
+import PageShell from "../layouts/PageShell.astro";
+import HeroParticles from "../components/HeroParticles.astro";
+import { services } from "../data/services";
+import { siteImages } from "../data/siteImages";
+---
+
+<PageShell
+	title="Bizintellis — Oracle Cloud advisory & delivery"
+	description="Oracle Cloud implementation, support, AI enablement, Redwood adoption, reporting, and cloud advisory—with one coherent thread from strategy through steady-state."
+>
+	<section class="hero section--accent">
+		<div class="hero__glow" aria-hidden="true"></div>
+		<HeroParticles />
+		<div class="wrap hero__layout">
+			<div>
+				<p class="eyebrow hero-motion__el">Oracle Cloud practice</p>
+				<h1 class="hero-motion__el">See the program clearly—then ship it with confidence</h1>
+				<p class="hero__lede hero-motion__el">
+					Most teams meet us while the roadmap is still forming. We help you decide what to run, in what order, and how to operate it—without
+					losing weeks to ambiguity or vendor noise.
+				</p>
+				<div class="hero-motion__actions">
+					<a href="/contact" class="btn btn--primary">Schedule an introductory call</a>
+					<a href="#services" class="btn btn--ghost">Explore services</a>
+				</div>
+			</div>
+			<div class="hero__visual hero__visual--motion">
+				<div class="hero__visual-float">
+					<div class="media-frame media-frame--hero">
+						<img
+							src={siteImages.hero.src}
+							alt={siteImages.hero.alt}
+							width="700"
+							height="525"
+							loading="eager"
+							decoding="async"
+							fetchpriority="high"
+						/>
+						<div class="hero__rings" aria-hidden="true">
+							<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<circle cx="100" cy="100" r="88" stroke="url(#o1)" stroke-width="0.6" opacity="0.9"></circle>
+								<circle cx="100" cy="100" r="72" stroke="url(#o1)" stroke-width="0.5" opacity="0.55"></circle>
+								<circle cx="100" cy="100" r="56" stroke="url(#o1)" stroke-width="0.45" opacity="0.4"></circle>
+								<path d="M100 12v8M100 180v8M12 100h8M180 100h8" stroke="#d4b87a" stroke-width="0.5" opacity="0.35"></path>
+								<circle cx="100" cy="44" r="2.5" fill="#d4b87a" opacity="0.85"></circle>
+								<circle cx="156" cy="100" r="2" fill="#3ee0d0" opacity="0.75"></circle>
+								<circle cx="72" cy="140" r="1.8" fill="#d4b87a" opacity="0.6"></circle>
+								<defs>
+									<linearGradient id="o1" x1="40" y1="40" x2="180" y2="160" gradientUnits="userSpaceOnUse">
+										<stop stop-color="#d4b87a"></stop>
+										<stop offset="1" stop-color="#3d7eb8" stop-opacity="0.3"></stop>
+									</linearGradient>
+								</defs>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--surface" id="audience">
+		<div class="wrap">
+			<p class="eyebrow motion-reveal">How we align the room</p>
+			<h2 class="motion-reveal">Three lenses, one thread</h2>
+			<p class="motion-reveal" style="max-width: 62ch;">
+				Oracle programs touch strategy, technology, and economics at once. We keep those perspectives explicit so reviews stay concrete—timeline,
+				risk, cost, and measurable value—without talking past each other.
+			</p>
+			<figure class="media-strip motion-reveal">
+				<img src={siteImages.approach.src} alt={siteImages.approach.alt} width="1200" height="514" loading="lazy" decoding="async" />
+			</figure>
+			<div class="grid-3" style="margin-top: 2rem;" data-motion-stagger>
+				<div class="card motion-stagger__item">
+					<h3 class="text-gold">Strategy & outcomes</h3>
+					<p style="margin-bottom: 0.75rem;">Pace, accountability, and a narrative leadership can stand behind.</p>
+					<ul>
+						<li>Business case clarity and stage gates tied to value</li>
+						<li>Program story that survives scrutiny—not slide filler</li>
+						<li>Partner model that reduces execution drag</li>
+					</ul>
+				</div>
+				<div class="card motion-stagger__item">
+					<h3 class="text-teal">Platform & operations</h3>
+					<p style="margin-bottom: 0.75rem;">Architecture, security, and sustainable day-two operations.</p>
+					<ul>
+						<li>Reference patterns for integration and release discipline</li>
+						<li>Risk-led sequencing that protects production</li>
+						<li>Runbooks and support readiness—not heroics at go-live</li>
+					</ul>
+				</div>
+				<div class="card motion-stagger__item">
+					<h3 class="text-gold">Economics & governance</h3>
+					<p style="margin-bottom: 0.75rem;">Predictability: cash, run-rate, and controls that hold up.</p>
+					<ul>
+						<li>TCO views with explicit assumptions</li>
+						<li>Phasing that matches budget reality</li>
+						<li>Reporting and controls you can audit with confidence</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section" id="services">
+		<div class="wrap">
+			<p class="eyebrow motion-reveal">What we deliver</p>
+			<h2 class="motion-reveal">Oracle Cloud services</h2>
+			<p class="motion-reveal" style="max-width: 60ch;">
+				Six practice areas span the full lifecycle—from strategy through steady-state—so you can engage where you are today and expand with one team.
+			</p>
+			<div class="grid-services" style="margin-top: 2rem;" data-motion-stagger>
+				{
+					services.map((s) => (
+						<a href={`/services/${s.slug}`} class="card card--interactive service-card motion-stagger__item">
+							<div class="service-card__media">
+								<img src={s.coverImage} alt={s.coverAlt} width="400" height="250" loading="lazy" decoding="async" />
+							</div>
+							<h3 style="margin-bottom: 0.5rem; font-size: 1.35rem;">{s.title}</h3>
+							<p style="margin: 0; font-size: 0.9375rem;">{s.short}</p>
+							<span class="service-card__more">View details →</span>
+						</a>
+					))
+				}
+			</div>
+			<p class="motion-reveal" style="margin-top: 2rem;">
+				<a href="/services">Full services overview</a>
+			</p>
+		</div>
+	</section>
+
+	<section class="section section--surface">
+		<div class="wrap">
+			<p class="eyebrow motion-reveal">How we work</p>
+			<h2 class="motion-reveal">Clarity first—then delivery discipline</h2>
+			<div class="media-split" data-motion-stagger>
+				<div class="motion-stagger__item">
+					<div class="card">
+						<h3>Decision-ready framing</h3>
+						<p>We translate Oracle capabilities into choices: what to standardize, what to integrate, and what to defer.</p>
+					</div>
+					<div class="card" style="margin-top: 1rem;">
+						<h3>One thread from advisory to run</h3>
+						<p>Fewer handoffs between strategy and implementation—same principles from roadmap through hypercare.</p>
+					</div>
+				</div>
+				<figure class="media-split__figure motion-stagger__item">
+					<img src={siteImages.work.src} alt={siteImages.work.alt} width="560" height="420" loading="lazy" decoding="async" />
+				</figure>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--cta" style="padding-bottom: 4rem;">
+		<div class="wrap">
+			<div class="card cta-panel motion-reveal">
+				<h2 style="color: var(--color-ink); margin-bottom: 0.5rem;">Tell us where you are on the journey</h2>
+				<p class="cta-panel__text">
+					Share your context—industry, Oracle footprint, and timing—and we will propose a sensible first conversation (no boilerplate pitch deck
+					required).
+				</p>
+				<a href="/contact" class="btn btn--primary">Contact Bizintellis</a>
+			</div>
+		</div>
+	</section>
+</PageShell>
+
+<style>
+	.hero__lede {
+		font-size: 1.125rem;
+		max-width: 54ch;
+	}
+
+	.service-card {
+		text-decoration: none;
+		color: inherit;
+		display: block;
+		overflow: hidden;
+	}
+
+	.service-card__more {
+		display: inline-block;
+		margin-top: 1rem;
+		font-weight: 600;
+		font-size: 0.875rem;
+		color: var(--color-teal);
+	}
+
+	.cta-panel {
+		background: var(--cta-panel-bg);
+		border: 1px solid var(--color-border-strong);
+		box-shadow: var(--shadow-glow);
+	}
+
+	.cta-panel__text {
+		color: var(--color-muted);
+		margin-bottom: 1.25rem;
+		max-width: 55ch;
+	}
+</style>

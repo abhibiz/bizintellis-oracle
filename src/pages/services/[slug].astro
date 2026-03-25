@@ -1,0 +1,89 @@
+---
+import PageShell from "../../layouts/PageShell.astro";
+import { services } from "../../data/services";
+
+export function getStaticPaths() {
+	return services.map((s) => ({
+		params: { slug: s.slug },
+		props: { service: s },
+	}));
+}
+
+interface Props {
+	service: (typeof services)[number];
+}
+
+const { service } = Astro.props;
+const { title, short, coverImage, coverAlt, perspectives, outcomes, whatWeDo } = service;
+---
+
+<PageShell title={`${title} — Bizintellis`} description={short}>
+	<section class="section section--accent">
+		<div class="wrap">
+			<p class="eyebrow motion-reveal">
+				<a href="/services" style="color: inherit; text-decoration: none;">Services</a> / {title}
+			</p>
+			<h1 class="motion-reveal">{title}</h1>
+			<p class="motion-reveal" style="font-size: 1.0625rem; max-width: 65ch;">{short}</p>
+			<figure class="detail-hero-media motion-reveal">
+				<img src={coverImage} alt={coverAlt} width="1200" height="514" loading="eager" decoding="async" />
+			</figure>
+			<p class="motion-reveal" style="margin-top: 1.5rem;">
+				<a href="/contact" class="btn btn--primary">Discuss this service</a>
+			</p>
+		</div>
+	</section>
+
+	<section class="section section--surface" id="perspectives">
+		<div class="wrap">
+			<h2 class="motion-reveal">What different stakeholders optimize for</h2>
+			<p class="motion-reveal" style="max-width: 60ch;">
+				Talking points by perspective—useful for steering committees and cross-functional alignment. Same facts, different emphasis.
+			</p>
+			<div class="grid-3" style="margin-top: 2rem;" data-motion-stagger>
+				<div class="card motion-stagger__item">
+					<h3 class="text-gold">Strategy & outcomes</h3>
+					<ul>
+						{perspectives.strategy.map((line) => <li>{line}</li>)}
+					</ul>
+				</div>
+				<div class="card motion-stagger__item">
+					<h3 class="text-teal">Platform & operations</h3>
+					<ul>
+						{perspectives.platform.map((line) => <li>{line}</li>)}
+					</ul>
+				</div>
+				<div class="card motion-stagger__item">
+					<h3 class="text-gold">Economics & governance</h3>
+					<ul>
+						{perspectives.economics.map((line) => <li>{line}</li>)}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="grid-2" data-motion-stagger>
+				<div class="card motion-stagger__item">
+					<h2 style="font-size: 1.35rem;">Outcomes we drive</h2>
+					<ul>
+						{outcomes.map((o) => <li>{o}</li>)}
+					</ul>
+				</div>
+				<div class="card motion-stagger__item">
+					<h2 style="font-size: 1.35rem;">What we do</h2>
+					<ul>
+						{whatWeDo.map((w) => <li>{w}</li>)}
+					</ul>
+				</div>
+			</div>
+			<p class="motion-reveal" style="margin-top: 2rem;">
+				<a href="/services">← All services</a>
+				<span style="margin: 0 0.75rem; color: var(--color-border);">|</span>
+				<a href="/contact">Contact</a>
+			</p>
+		</div>
+	</section>
+</PageShell>

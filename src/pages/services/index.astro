@@ -1,0 +1,81 @@
+---
+import PageShell from "../../layouts/PageShell.astro";
+import { services } from "../../data/services";
+import { siteImages } from "../../data/siteImages";
+---
+
+<PageShell
+	title="Oracle Cloud services — Bizintellis"
+	description="Cloud implementation, support, AI enablement, Redwood adoption, report services, and cloud advisory."
+>
+	<section class="section section--accent">
+		<div class="wrap">
+			<p class="eyebrow motion-reveal">Services</p>
+			<h1 class="motion-reveal">Oracle Cloud practice areas</h1>
+			<p class="motion-reveal" style="max-width: 60ch;">
+				Each offering is written so strategy, platform, and economics stay aligned from day one—whether you are buying, building, or running Oracle
+				Cloud.
+			</p>
+			<figure class="services-page-banner motion-reveal">
+				<img
+					src={siteImages.servicesBanner.src}
+					alt={siteImages.servicesBanner.alt}
+					width="1400"
+					height="600"
+					loading="eager"
+					decoding="async"
+				/>
+			</figure>
+		</div>
+	</section>
+
+	<section class="section section--tight">
+		<div class="wrap">
+			<div class="grid-services" data-motion-stagger>
+				{
+					services.map((s) => (
+						<article class="card motion-stagger__item">
+							<div class="service-card__media">
+								<a href={`/services/${s.slug}`} style="display: block; height: 100%;">
+									<img src={s.coverImage} alt={s.coverAlt} width="400" height="250" loading="lazy" decoding="async" />
+								</a>
+							</div>
+							<h2 style="font-size: 1.35rem; margin-bottom: 0.5rem;">
+								<a href={`/services/${s.slug}`} style="color: inherit; text-decoration: none;">
+									{s.title}
+								</a>
+							</h2>
+							<p style="margin: 0;">{s.short}</p>
+							<p style="margin-top: 1rem; margin-bottom: 0;">
+								<a href={`/services/${s.slug}`}>Read service detail</a>
+							</p>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</PageShell>
+
+<style>
+	article.card {
+		padding: 0 0 1.5rem;
+		overflow: hidden;
+	}
+
+	article.card .service-card__media {
+		margin: 0 0 1rem;
+		border-radius: 0;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	article.card h2,
+	article.card p {
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+
+	article.card p:last-of-type {
+		margin-bottom: 0;
+	}
+</style>

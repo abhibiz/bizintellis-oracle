@@ -34,7 +34,7 @@ import { siteImages } from "../../data/siteImages";
 			<div class="grid-services" data-motion-stagger>
 				{
 					services.map((s) => (
-						<article class="card motion-stagger__item">
+						<article class="card card--interactive motion-stagger__item">
 							<div class="service-card__media">
 								<a href={`/services/${s.slug}`} style="display: block; height: 100%;">
 									<img src={s.coverImage} alt={s.coverAlt} width="400" height="250" loading="lazy" decoding="async" />

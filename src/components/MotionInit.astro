@@ -7,13 +7,111 @@
 			return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		}
 
+		function initParallax() {
+			if (reduced()) return;
+
+			var nodes = Array.prototype.slice.call(document.querySelectorAll("[data-parallax]"));
+			if (!nodes.length) return;
+
+			var vh = window.innerHeight || 800;
+			var active = new Set();
+			var ticking = false;
+			var lastScrollY = window.scrollY || 0;
+
+			function readVh() {
+				vh = window.innerHeight || 800;
+			}
+
+			function update() {
+				ticking = false;
+				var scrollY = window.scrollY || 0;
+				lastScrollY = scrollY;
+
+				active.forEach(function (el) {
+					var rect = el.getBoundingClientRect();
+					var speed = parseFloat(el.getAttribute("data-parallax-speed") || "0.18");
+					var max = parseFloat(el.getAttribute("data-parallax-max") || "18");
+					var dir = el.getAttribute("data-parallax-dir") === "down" ? 1 : -1;
+
+					// progress ~ -1..1 around viewport center
+					var center = rect.top + rect.height * 0.5;
+					var p = (center - vh * 0.5) / (vh * 0.5);
+					if (p < -1.4) p = -1.4;
+					if (p > 1.4) p = 1.4;
+
+					var y = dir * p * max * speed;
+					el.style.transform = "translate3d(0," + y.toFixed(2) + "px,0)";
+				});
+			}
+
+			function requestTick() {
+				if (ticking) return;
+				ticking = true;
+				window.requestAnimationFrame(update);
+			}
+
+			var io = new IntersectionObserver(
+				function (entries) {
+					entries.forEach(function (e) {
+						if (e.isIntersecting) active.add(e.target);
+						else active.delete(e.target);
+					});
+					requestTick();
+				},
+				{ rootMargin: "20% 0px 20% 0px", threshold: 0.01 }
+			);
+
+			nodes.forEach(function (el) {
+				el.style.willChange = "transform";
+				io.observe(el);
+			});
+
+			window.addEventListener(
+				"scroll",
+				function () {
+					// avoid work if scroll doesn't change (rare but cheap)
+					var y = window.scrollY || 0;
+					if (y === lastScrollY) return;
+					requestTick();
+				},
+				{ passive: true }
+			);
+
+			window.addEventListener("resize", function () {
+				readVh();
+				requestTick();
+			});
+
+			readVh();
+			requestTick();
+		}
+
 		function init() {
 			if (reduced()) {
-				document.querySelectorAll(".motion-reveal, .motion-stagger__item").forEach(function (el) {
+				document.querySelectorAll(".motion-reveal, .motion-stagger__item, .motion-section, .motion-card").forEach(function (el) {
 					el.classList.add("is-in");
 				});
 				return;
 			}
+
+			// Auto-apply motion classes for a “live” feel
+			document.querySelectorAll("section.hero, section.section").forEach(function (el) {
+				el.classList.add("motion-section");
+			});
+
+			document.querySelectorAll("main h1, main h2, main h3").forEach(function (el) {
+				if (el.classList.contains("hero-motion__el")) return;
+				if (el.classList.contains("motion-reveal")) return;
+				if (el.closest("[data-motion-stagger]")) return;
+				el.classList.add("motion-reveal");
+			});
+
+			document.querySelectorAll("main .card").forEach(function (el) {
+				if (el.classList.contains("motion-stagger__item")) return;
+				if (el.closest("[data-motion-stagger]")) return;
+				if (el.classList.contains("motion-card")) return;
+				el.classList.add("motion-card");
+			});
 
 			var opts = { rootMargin: "0px 0px -6% 0px", threshold: 0.1 };
 
@@ -25,7 +123,7 @@
 				});
 			}, opts);
 
-			document.querySelectorAll(".motion-reveal").forEach(function (el) {
+			document.querySelectorAll(".motion-reveal, .motion-section, .motion-card").forEach(function (el) {
 				if (el.closest("[data-motion-stagger]")) return;
 				single.observe(el);
 			});
@@ -46,6 +144,8 @@
 			document.querySelectorAll("[data-motion-stagger]").forEach(function (el) {
 				stagger.observe(el);
 			});
+
+			initParallax();
 		}
 
 		if (document.readyState === "loading") {

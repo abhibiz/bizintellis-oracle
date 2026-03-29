@@ -25,38 +25,6 @@ import { siteImages } from "../data/siteImages";
 					<a href="#services" class="btn btn--ghost">Explore services</a>
 				</div>
 			</div>
-			<div class="hero__visual hero__visual--motion">
-				<div class="hero__visual-float">
-					<div class="media-frame media-frame--hero">
-						<img
-							src={siteImages.hero.src}
-							alt={siteImages.hero.alt}
-							width="700"
-							height="525"
-							loading="eager"
-							decoding="async"
-							fetchpriority="high"
-						/>
-						<div class="hero__rings" aria-hidden="true">
-							<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="100" cy="100" r="88" stroke="url(#o1)" stroke-width="0.6" opacity="0.9"></circle>
-								<circle cx="100" cy="100" r="72" stroke="url(#o1)" stroke-width="0.5" opacity="0.55"></circle>
-								<circle cx="100" cy="100" r="56" stroke="url(#o1)" stroke-width="0.45" opacity="0.4"></circle>
-								<path d="M100 12v8M100 180v8M12 100h8M180 100h8" stroke="#d4b87a" stroke-width="0.5" opacity="0.35"></path>
-								<circle cx="100" cy="44" r="2.5" fill="#d4b87a" opacity="0.85"></circle>
-								<circle cx="156" cy="100" r="2" fill="#3ee0d0" opacity="0.75"></circle>
-								<circle cx="72" cy="140" r="1.8" fill="#d4b87a" opacity="0.6"></circle>
-								<defs>
-									<linearGradient id="o1" x1="40" y1="40" x2="180" y2="160" gradientUnits="userSpaceOnUse">
-										<stop stop-color="#d4b87a"></stop>
-										<stop offset="1" stop-color="#3d7eb8" stop-opacity="0.3"></stop>
-									</linearGradient>
-								</defs>
-							</svg>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</section>
 
@@ -68,11 +36,8 @@ import { siteImages } from "../data/siteImages";
 				Oracle programs touch strategy, technology, and economics at once. We keep those perspectives explicit so reviews stay concrete—timeline,
 				risk, cost, and measurable value—without talking past each other.
 			</p>
-			<figure class="media-strip motion-reveal">
-				<img src={siteImages.approach.src} alt={siteImages.approach.alt} width="1200" height="514" loading="lazy" decoding="async" />
-			</figure>
 			<div class="grid-3" style="margin-top: 2rem;" data-motion-stagger>
-				<div class="card motion-stagger__item">
+				<div class="card card--interactive lenses-card motion-stagger__item">
 					<h3 class="text-gold">Strategy & outcomes</h3>
 					<p style="margin-bottom: 0.75rem;">Pace, accountability, and a narrative leadership can stand behind.</p>
 					<ul>
@@ -81,7 +46,7 @@ import { siteImages } from "../data/siteImages";
 						<li>Partner model that reduces execution drag</li>
 					</ul>
 				</div>
-				<div class="card motion-stagger__item">
+				<div class="card card--interactive lenses-card motion-stagger__item">
 					<h3 class="text-teal">Platform & operations</h3>
 					<p style="margin-bottom: 0.75rem;">Architecture, security, and sustainable day-two operations.</p>
 					<ul>
@@ -90,7 +55,7 @@ import { siteImages } from "../data/siteImages";
 						<li>Runbooks and support readiness—not heroics at go-live</li>
 					</ul>
 				</div>
-				<div class="card motion-stagger__item">
+				<div class="card card--interactive lenses-card motion-stagger__item">
 					<h3 class="text-gold">Economics & governance</h3>
 					<p style="margin-bottom: 0.75rem;">Predictability: cash, run-rate, and controls that hold up.</p>
 					<ul>
@@ -114,7 +79,7 @@ import { siteImages } from "../data/siteImages";
 				{
 					services.map((s) => (
 						<a href={`/services/${s.slug}`} class="card card--interactive service-card motion-stagger__item">
-							<div class="service-card__media">
+							<div class="service-card__media" data-parallax data-parallax-speed="0.12" data-parallax-max="14" data-parallax-dir="up">
 								<img src={s.coverImage} alt={s.coverAlt} width="400" height="250" loading="lazy" decoding="async" />
 							</div>
 							<h3 style="margin-bottom: 0.5rem; font-size: 1.35rem;">{s.title}</h3>
@@ -145,7 +110,7 @@ import { siteImages } from "../data/siteImages";
 						<p>Fewer handoffs between strategy and implementation—same principles from roadmap through hypercare.</p>
 					</div>
 				</div>
-				<figure class="media-split__figure motion-stagger__item">
+				<figure class="media-split__figure motion-stagger__item" data-parallax data-parallax-speed="0.14" data-parallax-max="16" data-parallax-dir="down">
 					<img src={siteImages.work.src} alt={siteImages.work.alt} width="560" height="420" loading="lazy" decoding="async" />
 				</figure>
 			</div>
@@ -170,6 +135,10 @@ import { siteImages } from "../data/siteImages";
 	.hero__lede {
 		font-size: 1.125rem;
 		max-width: 54ch;
+	}
+
+	.hero {
+		padding-top: clamp(2.25rem, 4vw, 3.25rem);
 	}
 
 	.service-card {

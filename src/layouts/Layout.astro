@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import "../styles/animations.css";
 import MotionInit from "../components/MotionInit.astro";
+import WhatsAppSticky from "../components/WhatsAppSticky.astro";
 
 interface Props {
 	title: string;
@@ -42,6 +43,7 @@ const fullTitle = title.includes("Bizintellis") ? title : `${title} | Bizintelli
 	</head>
 	<body>
 		<slot />
+		<WhatsAppSticky />
 		<MotionInit />
 	</body>
 </html>

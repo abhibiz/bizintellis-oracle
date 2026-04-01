@@ -135,6 +135,43 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.whatsapp-sticky {
+	position: fixed;
+	right: max(1.1rem, env(safe-area-inset-right));
+	bottom: max(1.1rem, env(safe-area-inset-bottom));
+	z-index: 60;
+	width: 3.15rem;
+	height: 3.15rem;
+	display: grid;
+	place-items: center;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+	color: rgba(255, 255, 255, 0.98);
+	text-decoration: none;
+	box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+	transition:
+		transform var(--dur-1) var(--ease-out-quint),
+		box-shadow var(--dur-2) var(--ease-out-quint),
+		filter var(--dur-2) ease;
+}
+
+.whatsapp-sticky:hover {
+	transform: translateY(-1px);
+	filter: brightness(1.04);
+	box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+}
+
+.whatsapp-sticky:focus-visible {
+	outline: none;
+	box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42), 0 0 0 3px rgba(37, 211, 102, 0.25);
+}
+
+.whatsapp-sticky__icon {
+	display: block;
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
 img {
 	max-width: 100%;
 	height: auto;

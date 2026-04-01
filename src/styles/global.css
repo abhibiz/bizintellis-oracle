@@ -60,6 +60,10 @@
 	--cta-panel-bg: radial-gradient(800px 260px at 30% 0%, rgba(124, 58, 237, 0.16), transparent 65%),
 		linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0.06) 100%);
 	color-scheme: dark;
+
+	/* Custom cursor coordinates (px, set at runtime) */
+	--cursor-x: -9999;
+	--cursor-y: -9999;
 }
 
 [data-theme="light"] {
@@ -135,6 +139,77 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.cursor-orbit {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 0;
+	height: 0;
+	transform: translate3d(calc(var(--cursor-x) * 1px), calc(var(--cursor-y) * 1px), 0);
+	pointer-events: none;
+	z-index: 9999;
+	opacity: 0;
+	transition: opacity 180ms ease;
+}
+
+.cursor-orbit.is-visible {
+	opacity: 1;
+}
+
+.cursor-orbit::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	border-radius: 999px;
+	transform: translate(-50%, -50%);
+	border: 1.5px solid color-mix(in oklab, var(--color-primary), white 18%);
+	box-shadow: 0 0 26px rgba(124, 58, 237, 0.14);
+	opacity: 0.55;
+}
+
+.cursor-orbit::before {
+	width: 34px;
+	height: 34px;
+	animation: cursor-breathe 900ms var(--ease-out-quint) infinite alternate;
+}
+
+.cursor-orbit__dot {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 10px;
+	height: 10px;
+	border-radius: 999px;
+	transform: translate(-50%, -50%);
+	background: transparent;
+	border: 2px solid color-mix(in oklab, var(--color-primary), white 26%);
+	box-shadow: 0 0 18px rgba(124, 58, 237, 0.18);
+}
+
+@keyframes cursor-breathe {
+	0% {
+		transform: translate(-50%, -50%) scale(0.92);
+		opacity: 0.45;
+	}
+	100% {
+		transform: translate(-50%, -50%) scale(1.08);
+		opacity: 0.7;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cursor-orbit {
+		display: none;
+	}
+}
+
+.cursor-orbit,
+.cursor-orbit::before,
+.cursor-orbit__dot {
+	will-change: transform;
+}
+
 .whatsapp-sticky {
 	position: fixed;
 	right: max(1.1rem, env(safe-area-inset-right));
@@ -149,16 +224,47 @@ body {
 	color: rgba(255, 255, 255, 0.98);
 	text-decoration: none;
 	box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+	isolation: isolate;
 	transition:
 		transform var(--dur-1) var(--ease-out-quint),
 		box-shadow var(--dur-2) var(--ease-out-quint),
 		filter var(--dur-2) ease;
 }
 
+.whatsapp-sticky::before,
+.whatsapp-sticky::after {
+	content: "";
+	position: absolute;
+	inset: -6px;
+	border-radius: inherit;
+	border: 2px solid rgba(37, 211, 102, 0.55);
+	opacity: 0;
+	transform: scale(0.92);
+	pointer-events: none;
+}
+
+.whatsapp-sticky::before {
+	animation: whatsapp-ring 1600ms var(--ease-out-quint) infinite;
+}
+
+.whatsapp-sticky::after {
+	inset: -12px;
+	border-color: rgba(37, 211, 102, 0.25);
+	animation: whatsapp-ring 1600ms var(--ease-out-quint) infinite;
+	animation-delay: 420ms;
+}
+
 .whatsapp-sticky:hover {
 	transform: translateY(-1px);
 	filter: brightness(1.04);
 	box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+}
+
+.whatsapp-sticky:hover::before,
+.whatsapp-sticky:hover::after {
+	animation-play-state: paused;
+	opacity: 0.4;
+	transform: scale(1.02);
 }
 
 .whatsapp-sticky:focus-visible {
@@ -170,6 +276,33 @@ body {
 	display: block;
 	width: 1.5rem;
 	height: 1.5rem;
+}
+
+@keyframes whatsapp-ring {
+	0% {
+		opacity: 0;
+		transform: scale(0.92);
+	}
+	25% {
+		opacity: 0.55;
+	}
+	70% {
+		opacity: 0.12;
+		transform: scale(1.14);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(1.22);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.whatsapp-sticky::before,
+	.whatsapp-sticky::after {
+		animation: none;
+		opacity: 0.25;
+		transform: none;
+	}
 }
 
 img {

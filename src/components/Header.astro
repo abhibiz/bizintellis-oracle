@@ -16,7 +16,7 @@ const nav = [
 			<span class="site-header__title">Bizintellis</span>
 			<span class="site-header__tag">Oracle practice</span>
 		</a>
-		<nav class="site-header__navlinks" aria-label="Primary">
+		<nav class="site-header__navlinks" id="site-nav" aria-label="Primary">
 			{
 				nav.map((item) => (
 					<a href={item.href} class="site-header__link">
@@ -24,13 +24,54 @@ const nav = [
 					</a>
 				))
 			}
+			<a href="/contact" class="btn btn--primary site-header__cta site-header__cta--drawer">Start a conversation</a>
 		</nav>
-		<div class="site-header__actions" aria-label="Header actions">
+		<div class="site-header__actions">
 			<ThemeToggle />
-			<a href="/contact" class="btn btn--primary site-header__cta">Start a conversation</a>
+			<a href="/contact" class="btn btn--primary site-header__cta site-header__cta--bar">Start a conversation</a>
+			<button
+				type="button"
+				class="site-header__menu-toggle"
+				id="site-menu-toggle"
+				aria-expanded="false"
+				aria-controls="site-nav"
+				aria-label="Open menu"
+			>
+				<span class="site-header__menu-icon" aria-hidden="true">
+					<span class="site-header__menu-line"></span>
+					<span class="site-header__menu-line"></span>
+					<span class="site-header__menu-line"></span>
+				</span>
+			</button>
 		</div>
 	</div>
 </header>
+
+<script>
+	const toggle = document.getElementById("site-menu-toggle");
+	const nav = document.getElementById("site-nav");
+
+	function setOpen(open) {
+		if (!toggle || !nav) return;
+		nav.classList.toggle("is-open", open);
+		toggle.setAttribute("aria-expanded", open ? "true" : "false");
+		toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+		document.body.classList.toggle("site-nav-open", open);
+	}
+
+	toggle?.addEventListener("click", () => {
+		const open = !nav?.classList.contains("is-open");
+		setOpen(open);
+	});
+
+	nav?.querySelectorAll("a").forEach((link) => {
+		link.addEventListener("click", () => setOpen(false));
+	});
+
+	window.addEventListener("resize", () => {
+		if (window.matchMedia("(min-width: 861px)").matches) setOpen(false);
+	});
+</script>
 
 <style>
 	.site-header {
@@ -120,6 +161,66 @@ const nav = [
 		gap: 0.65rem;
 	}
 
+	.site-header__menu-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0;
+		border: 1px solid var(--color-border);
+		border-radius: 10px;
+		background: color-mix(in oklab, var(--color-surface), transparent 22%);
+		color: var(--color-ink);
+		cursor: pointer;
+		transition:
+			background var(--dur-2) ease,
+			border-color var(--dur-2) ease,
+			box-shadow var(--dur-2) var(--ease-out-quint);
+	}
+
+	.site-header__menu-toggle:hover {
+		border-color: var(--color-border-strong);
+		background: var(--color-surface-hover);
+	}
+
+	.site-header__menu-toggle:focus-visible {
+		outline: none;
+		box-shadow: var(--ring);
+	}
+
+	.site-header__menu-icon {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 5px;
+		width: 1.15rem;
+	}
+
+	.site-header__menu-line {
+		display: block;
+		height: 2px;
+		border-radius: 999px;
+		background: currentColor;
+		transition: transform var(--dur-2) var(--ease-out-quint), opacity var(--dur-2) ease;
+	}
+
+	.site-header__menu-toggle[aria-expanded="true"] .site-header__menu-line:nth-child(1) {
+		transform: translateY(7px) rotate(45deg);
+	}
+
+	.site-header__menu-toggle[aria-expanded="true"] .site-header__menu-line:nth-child(2) {
+		opacity: 0;
+	}
+
+	.site-header__menu-toggle[aria-expanded="true"] .site-header__menu-line:nth-child(3) {
+		transform: translateY(-7px) rotate(-45deg);
+	}
+
+	.site-header__cta--drawer {
+		display: none;
+	}
+
 	.site-header__link {
 		font-size: 0.9rem;
 		font-weight: 550;
@@ -158,18 +259,65 @@ const nav = [
 
 	@media (max-width: 860px) {
 		.site-header__inner {
-			grid-template-columns: 1fr;
+			grid-template-columns: 1fr auto;
+			grid-template-rows: auto auto;
 		}
 
-		.site-header__navlinks {
+		.site-header__brand {
 			grid-column: 1;
-			justify-content: flex-start;
-			margin-top: 0.25rem;
+			grid-row: 1;
 		}
 
 		.site-header__actions {
-			grid-column: 1;
-			justify-content: flex-start;
+			grid-column: 2;
+			grid-row: 1;
+			justify-content: flex-end;
 		}
+
+		.site-header__menu-toggle {
+			display: inline-flex;
+		}
+
+		.site-header__cta--bar {
+			display: none;
+		}
+
+		.site-header__navlinks {
+			grid-column: 1 / -1;
+			grid-row: 2;
+			display: none;
+			flex-direction: column;
+			align-items: stretch;
+			justify-content: flex-start;
+			gap: 0;
+			margin-top: 0.5rem;
+			padding-top: 0.75rem;
+			border-top: 1px solid var(--color-border);
+		}
+
+		.site-header__navlinks.is-open {
+			display: flex;
+		}
+
+		.site-header__link {
+			padding: 0.65rem 0;
+			font-size: 1rem;
+		}
+
+		.site-header__link::after {
+			display: none;
+		}
+
+		.site-header__cta--drawer {
+			display: inline-flex;
+			justify-content: center;
+			margin-top: 0.5rem;
+			width: 100%;
+			box-sizing: border-box;
+		}
+	}
+
+	:global(body.site-nav-open) {
+		overflow: hidden;
 	}
 </style>

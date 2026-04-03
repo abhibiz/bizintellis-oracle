@@ -211,7 +211,7 @@ a:not(.btn):not(.site-header__link):hover {
 		transform var(--dur-2, 220ms) var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
-.site-footer__list a:hover {
+	.site-footer__list a:hover {
 	transform: translateX(3px);
 }
 
@@ -264,6 +264,10 @@ a:not(.btn):not(.site-header__link):hover {
 	}
 
 	.site-footer__list a:hover {
+		transform: none;
+	}
+
+	.site-footer__social-link:hover {
 		transform: none;
 	}
 }

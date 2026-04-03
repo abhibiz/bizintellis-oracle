@@ -105,6 +105,14 @@ const nav = [
 		grid-template-rows: auto auto;
 		column-gap: 0.65rem;
 		align-items: center;
+		transition:
+			opacity var(--dur-2) ease,
+			transform var(--dur-2) var(--ease-out-quint);
+	}
+
+	.site-header__brand:hover {
+		opacity: 0.9;
+		transform: translateY(-1px);
 	}
 
 	.site-header__mark {
@@ -319,5 +327,11 @@ const nav = [
 
 	:global(body.site-nav-open) {
 		overflow: hidden;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-header__brand:hover {
+			transform: none;
+		}
 	}
 </style>

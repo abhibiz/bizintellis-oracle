@@ -93,6 +93,11 @@ import PageShell from "../layouts/PageShell.astro";
 		transition: border-color var(--dur-2) ease, box-shadow var(--dur-2) var(--ease-out-quint), background var(--dur-2) ease;
 	}
 
+	.field:hover:not(:focus) {
+		border-color: color-mix(in oklab, var(--color-border-strong), var(--color-border) 35%);
+		background: color-mix(in oklab, var(--color-bg-mid), transparent 8%);
+	}
+
 	.field:focus {
 		outline: none;
 		border-color: color-mix(in oklab, var(--color-primary), var(--color-border-strong) 55%);

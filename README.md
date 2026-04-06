@@ -38,6 +38,13 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## WhatsApp sticky button
+
+Set these environment variables (see `.env.example`) to enable the bottom-right WhatsApp chat button:
+
+- `PUBLIC_WHATSAPP_NUMBER`: your WhatsApp number in international format (digits only recommended, e.g. `15551234567`)
+- `PUBLIC_WHATSAPP_MESSAGE` (optional): prefilled message text
+
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

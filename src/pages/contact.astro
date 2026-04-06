@@ -1,6 +1,5 @@
 ---
 import PageShell from "../layouts/PageShell.astro";
-import { siteImages } from "../data/siteImages";
 ---
 
 <PageShell
@@ -10,88 +9,57 @@ import { siteImages } from "../data/siteImages";
 	<section class="section section--accent">
 		<div class="wrap">
 			<p class="eyebrow motion-reveal">Contact</p>
-			<h1 class="motion-reveal">Plan a conversation</h1>
-			<p class="motion-reveal" style="max-width: 58ch;">
-				This site is built for prospective clients. Replace the placeholders below with your routing email, calendar link, and office details—or
-				connect your CRM form action.
+			<h1 class="motion-reveal">Choose a package, then send your message</h1>
+			<p class="motion-reveal" style="max-width: 62ch;">
+				Select a package below. Then share your details and what you want to achieve.
 			</p>
 		</div>
 	</section>
 
 	<section class="section">
-		<div class="wrap contact-layout">
-			<div>
-				<div class="grid-2" data-motion-stagger>
-					<div class="card motion-stagger__item">
-						<h2 style="font-size: 1.25rem;">How to reach Bizintellis</h2>
-						<p><strong>Email:</strong> oracle-practice@bizintellis.com</p>
-						<p><strong>Engagement:</strong> Introductory calls are typically 30 minutes, focused on fit and next steps.</p>
-						<p style="margin-bottom: 0;">
-							<strong>Note:</strong> Update these fields in <code>src/pages/contact.astro</code> with production contact information.
-						</p>
-					</div>
-					<div class="card motion-stagger__item">
-						<h2 style="font-size: 1.25rem;">What to include</h2>
-						<ul>
-							<li>Industry and geography</li>
-							<li>Oracle products in scope (Cloud ERP, HCM, SCM, etc.)</li>
-							<li>Where you are: assess, implement, optimize, or run</li>
-							<li>Sponsorship across business, technology, and finance (names optional)</li>
-						</ul>
-					</div>
-				</div>
+		<div class="wrap" style="max-width: 860px;">
+			<section class="card motion-reveal package-card">
+				<h2 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Package</h2>
+				<p style="font-size: 0.9375rem; margin-bottom: 1rem; color: var(--color-muted);">
+					Pick the service package you want to discuss.
+				</p>
+				<label>
+					<span class="label">Package</span>
+					<select id="package" name="package" required class="field">
+						<option value="" selected disabled>Select a package</option>
+						<option value="idr-p2p">IDR / Procure to Pay optimization Services</option>
+						<option value="ai-enablement">AI Enablement for Oracle Fusion Applications</option>
+						<option value="fusion-analytics-reporting">Oracle Fusion Analytics &amp; Reporting Packages</option>
+					</select>
+				</label>
+			</section>
 
-				<form class="card motion-reveal contact-form" style="margin-top: 1.5rem;" method="post" action="#">
-					<h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Message (wire to your form backend)</h2>
-					<p style="font-size: 0.9375rem; margin-bottom: 1rem;">
-						Hook this form to Formspree, Netlify Forms, or your API. Fields are semantic HTML for easy integration.
-					</p>
-					<div class="contact-form__grid">
-						<label>
-							<span style="display: block; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.35rem;">Name</span>
-							<input
-								type="text"
-								name="name"
-								required
-								class="field"
-							/>
-						</label>
-						<label>
-							<span style="display: block; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.35rem;">Work email</span>
-							<input
-								type="email"
-								name="email"
-								required
-								class="field"
-							/>
-						</label>
-						<label>
-							<span style="display: block; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.35rem;">How you orient</span>
-							<select
-								name="role"
-								class="field"
-							>
-								<option>Business / strategy</option>
-								<option>Technology / security</option>
-								<option>Finance / operations</option>
-								<option>Other</option>
-							</select>
-						</label>
-						<label>
-							<span style="display: block; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.35rem;">How can we help?</span>
-							<textarea
-								name="message"
-								rows="5"
-								class="field"
-							></textarea>
-						</label>
-						<button type="submit" class="btn btn--primary" style="justify-self: start;">Submit</button>
-					</div>
-				</form>
-			</div>
-			<figure class="contact-aside-figure motion-reveal">
-				<img src={siteImages.contact.src} alt={siteImages.contact.alt} width="380" height="475" loading="lazy" decoding="async" />
-			</figure>
+			<form class="card motion-reveal contact-form" style="margin-top: 1.5rem;" method="post" action="#">
+				<h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Contact form</h2>
+				<div class="contact-form__grid">
+					<label>
+						<span class="label">Name</span>
+						<input type="text" name="name" required class="field" autocomplete="name" />
+					</label>
+					<label>
+						<span class="label">Work email</span>
+						<input type="email" name="email" required class="field" autocomplete="email" />
+					</label>
+					<label>
+						<span class="label">Phone (optional)</span>
+						<input type="tel" name="phone" class="field" autocomplete="tel" />
+					</label>
+					<label>
+						<span class="label">Company (optional)</span>
+						<input type="text" name="company" class="field" autocomplete="organization" />
+					</label>
+					<label class="contact-form__message">
+						<span class="label">Message</span>
+						<textarea name="message" rows="6" required class="field"></textarea>
+					</label>
+					<button type="submit" class="btn btn--primary" style="justify-self: start;">Submit</button>
+				</div>
+			</form>
 		</div>
 	</section>
 </PageShell>
@@ -100,6 +68,18 @@ import { siteImages } from "../data/siteImages";
 	.contact-form__grid {
 		display: grid;
 		gap: 1rem;
+		grid-template-columns: 1fr;
+	}
+
+	.contact-form__message {
+		grid-column: 1 / -1;
+	}
+
+	.label {
+		display: block;
+		font-weight: 600;
+		font-size: 0.875rem;
+		margin-bottom: 0.35rem;
 	}
 
 	.field {

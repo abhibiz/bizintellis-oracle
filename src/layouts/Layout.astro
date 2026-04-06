@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import "../styles/animations.css";
 import MotionInit from "../components/MotionInit.astro";
+import WhatsAppSticky from "../components/WhatsAppSticky.astro";
 
 interface Props {
 	title: string;
@@ -42,6 +43,71 @@ const fullTitle = title.includes("Bizintellis") ? title : `${title} | Bizintelli
 	</head>
 	<body>
 		<slot />
+		<div class="cursor-orbit" aria-hidden="true">
+			<div class="cursor-orbit__dot"></div>
+		</div>
+		<WhatsAppSticky />
 		<MotionInit />
+		<script is:inline>
+			(function () {
+				function reduced() {
+					return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+				}
+
+				function finePointer() {
+					return window.matchMedia && window.matchMedia("(pointer: fine)").matches;
+				}
+
+				function initCursor() {
+					if (reduced() || !finePointer()) return;
+
+					var root = document.documentElement;
+					var orbit = document.querySelector(".cursor-orbit");
+					if (!orbit) return;
+
+					var tx = window.innerWidth * 0.5;
+					var ty = window.innerHeight * 0.5;
+					var x = tx;
+					var y = ty;
+					var raf = 0;
+					var visible = false;
+
+					function render() {
+						raf = 0;
+						x += (tx - x) * 0.16;
+						y += (ty - y) * 0.16;
+						root.style.setProperty("--cursor-x", x.toFixed(2));
+						root.style.setProperty("--cursor-y", y.toFixed(2));
+						if (!raf) raf = window.requestAnimationFrame(render);
+					}
+
+					function onMove(e) {
+						tx = e.clientX;
+						ty = e.clientY;
+						if (!visible) {
+							visible = true;
+							orbit.classList.add("is-visible");
+						}
+						if (!raf) raf = window.requestAnimationFrame(render);
+					}
+
+					function onLeave() {
+						visible = false;
+						orbit.classList.remove("is-visible");
+					}
+
+					window.addEventListener("pointermove", onMove, { passive: true });
+					window.addEventListener("pointerdown", onMove, { passive: true });
+					window.addEventListener("blur", onLeave);
+					document.addEventListener("mouseleave", onLeave);
+				}
+
+				if (document.readyState === "loading") {
+					document.addEventListener("DOMContentLoaded", initCursor);
+				} else {
+					initCursor();
+				}
+			})();
+		</script>
 	</body>
 </html>
